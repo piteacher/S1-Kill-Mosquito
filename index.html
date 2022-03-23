@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title id="titlename">打蚊子遊戲</title>
+		<link id="linkdemo" rel="icon" href="./images/mosquito.png">
+		<meta charset="utf-8">
+		<meta name="author" content="Andy Chang">
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+		<style type="text/css">
+			.cursorpointer
+			{
+				cursor:pointer;
+				font-size:20px;
+				font-weight:bold;
+				border-radius: 6px;
+			}
+			
+			.titletext
+			{
+				border-width:2px;
+				border-style:ridge;
+				border-color: rgb(15, 13, 76);
+				background-color: rgba(41, 105, 176, 0.2);
+				font-size:24px;
+				font-weight:bold;
+			}
+	
+			table, th, td 
+			{
+				border:1px solid black;
+			}
+		
+			.div2 
+			{
+				position: absolute;
+				height:60%;
+				width:100%;
+				cursor:url("./images/hammer.ico"),auto;
+			}
+			button
+			{
+				font-size:16px;
+			}
+		</style>
+	</head>
+	<body id="bodydemo" align="center" style="background-image:url('./images/sky.jpg')">
+		<div id="div1" style="background-color:Lightblue;">
+			<a class="titletext">選擇遊戲<br></a>
+			<a class="cursorpointer" id="titletext1" style="background-color:DeepSkyBlue;" onclick="showfunction(1)" title="點擊選擇遊戲">打蚊子遊戲</a>&nbsp;&nbsp;&nbsp;
+			<a class="cursorpointer" id="titletext2" style="background-color:none;" onclick="showfunction(2)" title="點擊選擇遊戲">打地鼠遊戲</a>
+			<br>		
+			<a class="titletext" style="cursor:pointer;" title="1.目標怪物出現點擊牠，即可得分。
+2.注意如果非目標怪物被擊殺，遊戲會直接結束!">
+			遊戲說明</a>		
+			<table align="center" title="1.目標怪物出現點擊牠，即可得分。
+2.注意如果非目標怪物被擊殺，遊戲會直接結束!">
+				<tr>
+					<th>怪物樣子</th>
+					<td><img id="tableshow"  style="width:24px;height:24px;" src="./images/mosquito.png"></img></td>
+					<td><img id="tableshow1" style="width:24px;height:24px;" src="./images/bee.png"></img></td>
+				</tr>
+				<tr>
+					<th>擊殺目標</th>
+					<td>⭕</td>
+					<td>❌</td>
+				</tr>
+			</table>
+			<a class="titletext">遊戲難度</a>
+			<form id="level">
+				<input class="cursorpointer" type="radio" name="whichlevel" value="easy"><a color="green">簡單</a>
+				<input class="cursorpointer" type="radio" name="whichlevel" value="normal" checked><a color="blue">普通</a>
+				<input class="cursorpointer" type="radio" name="whichlevel" value="hard"><a color="red">困難</a>
+			</form>
+			<button type="button" onclick="mosquitoFunction()">開始遊戲!</button>
+			<button type="button" onclick="refresh()">重新一局!</button>
+			<br>
+			<a id="score"><b>目前分數：0</b></a>
+			<a id="time"><b>剩餘時間：60</b></a>
+		</div>
+		<div id="div2" class="div2" style="-webkit-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;">
+			<img id="demo"></img>
+			<img id="demo1"></img>
+			<img id="demo2"></img>
+			<img id="demo3"></img>
+			<map name="workmap">
+				<area shape="circle" coords="0,0,100" onclick="hitFunction()">
+			</map>
+			<map name="workmap1">
+				<area shape="circle" coords="0,0,100" onclick="hitFunction1()">
+			</map>
+			<map name="workmap2">
+				<area shape="circle" coords="0,0,100" onclick="hitFunction2()">
+			</map>
+			<map name="workmap3">
+				<area shape="circle" coords="0,0,100" onclick="hitFunction3()">
+			</map>
+			<map name="workmap4">
+				<area shape="circle" coords="0,0,100" onclick="hitFunction4()">
+			</map>
+		</div>
+
+	<script>
+	//產生min到max之間的亂數
+		function getRandom(min,max)
+		{
+			return Math.floor(Math.random()*(max-min+1))+min;
+		};
+
+		var clicked=false;
+		var count=60;
+
+		function mosquitoFunction()
+		{
+			if (clicked==false)
+			{
+				var timer=null;
+				timer=setInterval(function ()
+				{
+					if (count > 0)
+					{
+						count=count - 1;
+						document.getElementById("time").innerHTML="剩餘時間："+count;
+						document.getElementById("time").style="font-weight:bold;";
+						var randomimg=getRandom(0,1);
+						var randomimg1=getRandom(0,1);
+						var randomimg2=getRandom(0,1);
+						var randomimg3=getRandom(0,1);
+						var img="./images/mosquito.png";
+						var img1="./images/mosquito.png";
+						var img2="./images/mosquito.png";
+						var img3="./images/mosquito.png";
+						var map="#workmap"
+						var map1="#workmap"
+						var map2="#workmap"
+						var map3="#workmap"
+						var titlename=document.getElementById("titlename").innerHTML;
+						if (titlename=="打蚊子遊戲")
+						{		
+							if (randomimg==0)
+							{
+								img="./images/mosquito.png";
+								map="#workmap"
+							}else
+							{
+								img="./images/bee.png";
+								map="#workmap4"
+							}
+							if (randomimg1==0)
+							{
+								img1="./images/mosquito.png";
+								map1="#workmap1"
+							}else
+							{
+								img1="./images/bee.png";
+								map1="#workmap4"
+							}
+							if (randomimg2==0)
+							{
+								img2="./images/mosquito.png";
+								map2="#workmap2"
+							}else
+							{
+								img2="./images/bee.png";
+								map2="#workmap4"
+							}
+							if (randomimg3==0)
+							{
+								img3="./images/mosquito.png";
+								map3="#workmap3"
+							}else
+							{
+								img3="./images/bee.png";
+								map3="#workmap4"
+							}
+						}else
+						{
+							if (randomimg==0)
+							{
+								img="./images/gopher.png";
+								map="#workmap"
+							}else
+							{
+								img="./images/snake.png";
+								map="#workmap4"
+							}
+							if (randomimg1==0)
+							{
+								img1="./images/gopher.png";
+								map1="#workmap1"
+							}else
+							{
+								img1="./images/snake.png";
+								map1="#workmap4"
+							}
+							if (randomimg2==0)
+							{
+								img2="./images/gopher.png";
+								map2="#workmap2"
+							}else
+							{
+								img2="./images/snake.png";
+								map2="#workmap4"
+							}
+							if (randomimg3==0)
+							{
+								img3="./images/gopher.png";
+								map3="#workmap3"
+							}else
+							{
+								img3="./images/snake.png";
+								map3="#workmap4"
+							}
+						}
+						document.getElementById("demo").src=img;
+						document.getElementById("demo").useMap=map;
+						document.getElementById("demo1").src=img1;
+						document.getElementById("demo1").useMap=map1;
+						document.getElementById("demo2").src=img2;
+						document.getElementById("demo2").useMap=map2;
+						document.getElementById("demo3").src=img3;
+						document.getElementById("demo3").useMap=map3;
+
+						var level=document.getElementById("level").elements["whichlevel"].value;			
+						if ( level=="easy") 
+						{
+							var stylevalue="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo").style=stylevalue;
+							var stylevalue2="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo1").style=stylevalue2;
+							document.getElementById("demo2").style="display:none;"
+							document.getElementById("demo3").style="display:none;"
+						} else if ( level=="normal") 
+						{
+							var stylevalue="width:40px;height:40px;margin:\n"+Math.ceil(Math.random()*10)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo").style=stylevalue;
+							var stylevalue1="width:40px;height:40px;margin:\n"+Math.ceil(Math.random()*10)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo1").style=stylevalue1;
+							var stylevalue2="width:40px;height:40px;margin:\n"+Math.ceil(Math.random()*10)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo2").style=stylevalue2;
+							document.getElementById("demo3").style="display:none;"
+						} else if ( level=="hard") 
+						{	
+							var stylevalue="width:40px;height:40px;margin:"+Math.ceil(Math.random()*7)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo").style=stylevalue;
+							var stylevalue1="width:40px;height:40px;margin:"+Math.ceil(Math.random()*7)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo1").style=stylevalue1;
+							var stylevalue2="width:40px;height:40px;margin:"+Math.ceil(Math.random()*7)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo2").style=stylevalue2;
+							var stylevalue3="width:40px;height:40px;margin:"+Math.ceil(Math.random()*7)+"%\n"+Math.ceil(Math.random()*40)+"%\n"+"auto\n"+Math.ceil(Math.random()*40)+"%";
+							document.getElementById("demo3").style=stylevalue3;
+						}
+					}
+					else 
+					{
+						document.getElementById("demo").style="display:none;";
+						document.getElementById("demo1").style="display:none;";
+						document.getElementById("demo2").style="display:none;";
+						document.getElementById("demo3").style="display:none;";
+						document.getElementById("score").innerHTML="你得到"+n+"分，遊戲結束!";
+						document.getElementById("score").style="font-weight:bold;";
+						const audio=new Audio("sounds/gameover.mp3");
+						audio.play();
+						clearInterval(timer);
+						clicked=false;
+					}
+				}, 1000);
+			}
+			clicked=true;
+		};
+
+		var n=0
+
+		function hitFunction() 
+		{
+			document.getElementById("demo").src="./images/blood.png";
+			document.getElementById("demo").useMap="";
+			updateDisplay(++n);
+			const audio=new Audio("sounds/flap.mp3");
+			audio.play();
+		}
+
+		function hitFunction1() 
+		{
+			document.getElementById("demo1").src="./images/blood.png";
+			document.getElementById("demo1").useMap="";
+			updateDisplay(++n);
+			const audio=new Audio("sounds/flap.mp3");
+			audio.play();
+		}
+
+		function hitFunction2() 
+		{
+			document.getElementById("demo2").src="./images/blood.png";
+			document.getElementById("demo2").useMap="";
+			updateDisplay(++n);
+			const audio=new Audio("sounds/flap.mp3");
+			audio.play();
+		}	
+
+		function hitFunction3() 
+		{
+			document.getElementById("demo3").src="./images/blood.png";
+			document.getElementById("demo3").useMap="";
+			updateDisplay(++n);
+			const audio=new Audio("sounds/flap.mp3");
+			audio.play();
+		}	
+
+		function hitFunction4() 
+		{
+			mosquitoFunction(count=0);
+		}
+
+		function updateDisplay() 
+		{
+			document.getElementById("score").innerHTML="目前分數："+n;
+			document.getElementById("score").style="font-weight:bold;";
+		}
+
+		function refresh()
+		{
+			window.location.reload();
+		}
+
+		function showfunction(num)
+		{
+			if (num==1)
+			{
+				document.getElementById("titlename").innerHTML="打蚊子遊戲";
+				document.getElementById("bodydemo").style="background-image:url('./images/sky.jpg');";
+				document.getElementById("div1").style="background-color:Lightblue;";
+				document.getElementById("titletext1").style="background-color:DeepSkyBlue;";
+				document.getElementById("titletext2").style="background-color:none;";
+				document.getElementById("linkdemo").href="./images/mosquito.png";
+				document.getElementById("tableshow").src="./images/mosquito.png";
+				document.getElementById("tableshow1").src="./images/bee.png";
+			}else
+			{
+				document.getElementById("titlename").innerHTML="打地鼠遊戲";
+				document.getElementById("bodydemo").style="background-image:url('./images/grass.jpg');";
+				document.getElementById("div1").style="background-color:Lightgreen;";
+				document.getElementById("titletext1").style="background-color:none;";
+				document.getElementById("titletext2").style="background-color:#01e473;";
+				document.getElementById("linkdemo").href="./images/gopher.png";
+				document.getElementById("tableshow").src="./images/gopher.png";
+				document.getElementById("tableshow1").src="./images/snake.png";
+			}
+		}
+	</script>
+	</body>
+</html>
